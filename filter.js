@@ -99,8 +99,10 @@ const filterInStockProducts = function (products) {
 const orders = [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-01" }];
 
 const arePlacedInLast30Days = function (order) {
-  const currentMonth = 12;
-  return currentMonth - (+order.orderDate[5] * 10 + +order.orderDate[6]) < 1;
+  const currentDate = new Date();
+  const givenDate = new Date(order.orderDate);
+  const difference = currentDate - givenDate;
+  return Math.floor(difference / (1000 * 60 * 60 * 24)) <= 30;
 };
 
 const filterRecentOrders = function (orders) {
@@ -108,7 +110,9 @@ const filterRecentOrders = function (orders) {
 };
 
 // products with a price lower than the average [{name: "item1", price: 10}, {name: "item2", price: 20}, {name: "item3", price: 5}] => [{name: "item1", price: 10}, {name: "item3", price: 5}]
-const filterBelowAveragePrice = function (products) { };
+const filterBelowAveragePrice = function (products) {
+  
+};
 
 // active users who posted in the last 7 days [{username: "alice", lastPostDate: "2024-12-01", active: true}, {username: "bob", lastPostDate: "2024-11-20", active: true}] => [{username: "alice", lastPostDate: "2024-12-01", active: true}]
 const filterRecentActiveUsers = function (users) { };
