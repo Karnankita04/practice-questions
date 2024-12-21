@@ -21,8 +21,14 @@ const filterLongWords = function (words) {
 };
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
-const filterAdults = function (people) {
+const people = [{ name: "Alice", age: 25 }, { name: "Bob", age: 35 }];
 
+const isAbove30 = function (object) {
+  return object.age > 30;
+};
+
+const filterAdults = function (people) {
+  return people.filter(isAbove30);
 };
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
