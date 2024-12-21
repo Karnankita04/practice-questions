@@ -32,7 +32,8 @@ const filterAdults = function (people) {
 };
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const users = [{ username: "alice", active: true }, { username: "bob", active: false }];
+const users = [{ username: "alice", active: true },
+{ username: "bob", active: false }];
 
 const isActive = function (user) {
   return user.active;
@@ -53,7 +54,8 @@ const filterNumbersGreaterThanTen = function (numbers) {
 };
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-const books = [{ title: "Book 1", pages: 150 }, { title: "Book 2", pages: 250 }];
+const books = [{ title: "Book 1", pages: 150 },
+{ title: "Book 2", pages: 250 }];
 
 const arePagesMoreThan200 = function (bookDetail) {
   return bookDetail.pages > 200;
@@ -64,7 +66,8 @@ const filterLongBooks = function (books) {
 };
 
 // users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
-const profiles = [{ username: "alice", profileComplete: true }, { username: "bob", profileComplete: false }];
+const profiles = [{ username: "alice", profileComplete: true },
+{ username: "bob", profileComplete: false }];
 
 const isProfileCompelete = function (profile) {
   return !profile.profileComplete;
@@ -86,7 +89,8 @@ const filterHighGrades = function (students) {
 };
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
-const products = [{ product: "apple", inStock: true }, { product: "banana", inStock: false }];
+const products = [{ product: "apple", inStock: true },
+{ product: "banana", inStock: false }];
 
 const areInStock = function (product) {
   return product.inStock;
@@ -97,28 +101,73 @@ const filterInStockProducts = function (products) {
 };
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-const orders = [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-01" }];
+const orders = [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-21" }];
+const currentDate = "2025-01-21";
+
+const isDivisibleBy = function (dividend, divisor) {
+  return (dividend % divisor === 0);
+};
+
+const isLeapYear = function (year) {
+  const isDivisibleBy4 = isDivisibleBy(year, 4);
+  const isDivisibleBy100 = isDivisibleBy(year, 100);
+  const isDivisibleBy400 = isDivisibleBy(year, 400);
+
+  return isDivisibleBy400 || (isDivisibleBy4 && !isDivisibleBy100);
+};
+
+const getDays = function (givenMonth, givenYear) {
+  let days = 0;
+
+  if (givenMonth <= 7) {
+    days = givenMonth % 2 === 1 ? 31 : 30;
+  }
+
+  if (givenMonth === 2) {
+    days = isLeapYear(givenYear) ? 29 : 28;
+  }
+
+  if (givenMonth >= 8) {
+    days = givenMonth % 2 === 1 ? 30 : 31;
+  }
+
+  return days;
+};
 
 const arePlacedInLast30Days = function (order) {
-  const currentDate = new Date();
-  const givenDate = new Date(order.orderDate);
-  const difference = currentDate - givenDate;
-  return Math.floor(difference / (1000 * 60 * 60 * 24)) <= 30;
+  const currentMonth = +currentDate.substring(5, 7);
+  const givenMonth = +order.orderDate.substring(5, 7);
+  const givenYear = +order.orderDate.substring(0, 4);
+  const currentYear = +order.orderDate.substring(0, 4);
+  const todaysDate = +currentDate.substring(8, 10);
+  const givenDate = +order.orderDate.substring(8, 10);
+  const days = getDays(givenMonth, givenYear);
+  const are30DaysFromLastToCurrMonth = currentMonth - givenMonth === 1 &&
+    (days - givenDate) + todaysDate <= 30;
+
+  const areLessThanOrEqualTo30DaysInCurrMonth = currentMonth - givenMonth === 0
+    && todaysDate - givenDate < 30;
+
+  return givenYear === currentYear && currentMonth - givenMonth <= 1 &&
+    are30DaysFromLastToCurrMonth || areLessThanOrEqualTo30DaysInCurrMonth;
 };
 
 const filterRecentOrders = function (orders) {
   return orders.filter(arePlacedInLast30Days);
 };
 
-// products with a price lower than the average [{name: "item1", price: 10}, {name: "item2", price: 20}, {name: "item3", price: 5}] => [{name: "item1", price: 10}, {name: "item3", price: 5}]
-const products = [{ name: "item1", price: 10 }, { name: "item2", price: 20 }, { name: "item3", price: 5 }];
+// products with a price lower than the average [{name: "item1", price: 10},
+//  {name: "item2", price: 20}, {name: "item3", price: 5}] =>
+//  [{name: "item1", price: 10}, {name: "item3", price: 5}]
+const products = [{ name: "item1", price: 10 }, { name: "item2", price: 20 },
+{ name: "item3", price: 5 }];
 
 const getAverage = function (average, product) {
-  average += product.price;
+  average += (product.price / products.length);
   return average;
 };
 
-const average = products.reduce(getAverage, 0) / products.length;
+const average = products.reduce(getAverage, 0);
 
 const isLowerThanAverage = function (product) {
   return product.price < average;
@@ -179,7 +228,12 @@ const filterBirthdaysThisMonth = function (people) {
 };
 
 // orders that exceed the average order value [{orderId: 1, amount: 20}, {orderId: 2, amount: 50}, {orderId: 3, amount: 10}] => [{orderId: 2, amount: 50}]
-const filterHighValueOrders = function (orders) { };
+const orders = [{ orderId: 1, amount: 20 }, { orderId: 2, amount: 50 },
+{ orderId: 3, amount: 10 }];
+
+const filterHighValueOrders = function (orders) {
+
+};
 
 // books with reviews higher than the average rating [{title: "Book 1", rating: 4}, {title: "Book 2", rating: 5}, {title: "Book 3", rating: 3}] => [{title: "Book 2", rating: 5}]
 const filterTopRatedBooks = function (books) { };
