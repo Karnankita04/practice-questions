@@ -22,7 +22,11 @@ const uppercaseOf = function (strings) {
 };
 
 // first characters of ["apple", "banana", "kiwi"] => ["a", "b", "k"]
-const firstCharactersOf = function (strings) { };
+const strings = ["apple", "banana", "kiwi"];
+
+const firstCharactersOf = function (strings) {
+  return strings.map(function (string) { return string.slice(0, 1); });
+};
 
 // truth values of [0, 1, 2, 3] => [false, true, true, true]
 // Assume non-zero numbers are true, and zero is false
