@@ -165,7 +165,18 @@ const filterStudentsWithAllSubjectsPassed = function (students) {
 };
 
 // people whose birthday is this month [{name: "Alice", birthDate: "2024-12-01"}, {name: "Bob", birthDate: "2024-11-01"}] => [{name: "Alice", birthDate: "2024-12-01"}]
-const filterBirthdaysThisMonth = function (people) { };
+
+const people = [{ name: "Alice", birthDate: "2024-12-01" },
+{ name: "Bob", birthDate: "2024-11-01" }];
+
+const isBirthdayInCurrentMonth = function (person) {
+  const currentMonth = new Date().getMonth();
+  return new Date(person.birthDate).getMonth() === currentMonth;
+};
+
+const filterBirthdaysThisMonth = function (people) {
+  return people.filter(isBirthdayInCurrentMonth);
+};
 
 // orders that exceed the average order value [{orderId: 1, amount: 20}, {orderId: 2, amount: 50}, {orderId: 3, amount: 10}] => [{orderId: 2, amount: 50}]
 const filterHighValueOrders = function (orders) { };
