@@ -162,14 +162,16 @@ const filterRecentOrders = function (orders) {
 const products = [{ name: "item1", price: 10 }, { name: "item2", price: 20 },
 { name: "item3", price: 5 }];
 
+const moneyUnit = "price";
+
 const getAverage = function (average, product) {
-  average += (product.price / products.length);
+  average += (product[moneyUnit] / products.length);
   return average;
 };
 
-const average = products.reduce(getAverage, 0);
 
 const isLowerThanAverage = function (product) {
+  const average = products.reduce(getAverage, 0);
   return product.price < average;
 };
 
@@ -215,24 +217,36 @@ const filterStudentsWithAllSubjectsPassed = function (students) {
 
 // people whose birthday is this month [{name: "Alice", birthDate: "2024-12-01"}, {name: "Bob", birthDate: "2024-11-01"}] => [{name: "Alice", birthDate: "2024-12-01"}]
 
-  const people = [{ name: "Alice", birthDate: "2024-12-01" },
-  { name: "Bob", birthDate: "2024-11-01" }];
+const people = [{ name: "Alice", birthDate: "2024-12-01" },
+{ name: "Bob", birthDate: "2024-11-01" }];
 
-  const isBirthdayInCurrentMonth = function (person) {
-    const todaysDate = "2024-12-22";
-    return person.birthDate.substring(5, 7) === todaysDate.substring(5, 7);
-  };
+const isBirthdayInCurrentMonth = function (person) {
+  const todaysDate = "2024-12-22";
+  return person.birthDate.substring(5, 7) === todaysDate.substring(5, 7);
+};
 
-  const filterBirthdaysThisMonth = function (people) {
-    return people.filter(isBirthdayInCurrentMonth);
-  };
+const filterBirthdaysThisMonth = function (people) {
+  return people.filter(isBirthdayInCurrentMonth);
+};
 
 // orders that exceed the average order value [{orderId: 1, amount: 20}, {orderId: 2, amount: 50}, {orderId: 3, amount: 10}] => [{orderId: 2, amount: 50}]
 const orders = [{ orderId: 1, amount: 20 }, { orderId: 2, amount: 50 },
 { orderId: 3, amount: 10 }];
 
-const filterHighValueOrders = function (orders) {
+const moneyUnit = "amount";
 
+const getAverage = function (average, product) {
+  average += (product[moneyUnit] / products.length);
+  return average;
+};
+
+const isAboveAverage = function (order) {
+  const average = orders.reduce(getAverage, 0);
+  return order.amount > average;
+};
+
+const filterHighValueOrders = function (orders) {
+  return orders.filter(isAboveAverage);
 };
 
 // books with reviews higher than the average rating [{title: "Book 1", rating: 4}, {title: "Book 2", rating: 5}, {title: "Book 3", rating: 3}] => [{title: "Book 2", rating: 5}]
