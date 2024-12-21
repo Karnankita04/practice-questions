@@ -37,6 +37,7 @@ const users = [{ username: "alice", active: true }, { username: "bob", active: f
 const isActive = function (user) {
   return user.active;
 };
+
 const filterActiveUsers = function (users) {
   return users.filter(isActive);
 };
@@ -128,7 +129,21 @@ const filterBelowAveragePrice = function (products) {
 };
 
 // active users who posted in the last 7 days [{username: "alice", lastPostDate: "2024-12-01", active: true}, {username: "bob", lastPostDate: "2024-11-20", active: true}] => [{username: "alice", lastPostDate: "2024-12-01", active: true}]
-const filterRecentActiveUsers = function (users) { };
+const users = [{ username: "alice", lastPostDate: "2024-12-19", active: true },
+{ username: "bob", lastPostDate: "2024-11-20", active: true }];
+
+const havePostedInLast7Days = function (user) {
+  const currentDate = new Date();
+  const givenDate = new Date(user.lastPostDate);
+  const difference = currentDate - givenDate;
+
+  console.log(currentDate, givenDate, difference);
+  return Math.floor(difference / (1000 * 60 * 60 * 24)) <= 7;
+};
+
+const filterRecentActiveUsers = function (users) {
+  return users.filter(isActive).users.filter(havePostedInLast7Days);
+};
 
 // students who passed all subjects [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}, {name: "Jane", subjects: [{name: "Math", passed: false}, {name: "Science", passed: true}]}] => [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}]
 const filterStudentsWithAllSubjectsPassed = function (students) { };
@@ -433,3 +448,5 @@ const findInStockItems = function (items, lookup) { };
 // Input: ["Lion", "Elephant", "Shark"], { "Lion": { habitat: "Jungle" }, "Elephant": { habitat: "Jungle" }, "Shark": { habitat: "Ocean" } } , "Jungle"
 // Output: ["Lion", "Elephant"]
 const findAnimalsByHabitat = function (animals, lookup) { };
+
+const ; 
