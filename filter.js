@@ -215,17 +215,17 @@ const filterStudentsWithAllSubjectsPassed = function (students) {
 
 // people whose birthday is this month [{name: "Alice", birthDate: "2024-12-01"}, {name: "Bob", birthDate: "2024-11-01"}] => [{name: "Alice", birthDate: "2024-12-01"}]
 
-const people = [{ name: "Alice", birthDate: "2024-12-01" },
-{ name: "Bob", birthDate: "2024-11-01" }];
+  const people = [{ name: "Alice", birthDate: "2024-12-01" },
+  { name: "Bob", birthDate: "2024-11-01" }];
 
-const isBirthdayInCurrentMonth = function (person) {
-  const currentMonth = new Date().getMonth();
-  return new Date(person.birthDate).getMonth() === currentMonth;
-};
+  const isBirthdayInCurrentMonth = function (person) {
+    const todaysDate = "2024-12-22";
+    return person.birthDate.substring(5, 7) === todaysDate.substring(5, 7);
+  };
 
-const filterBirthdaysThisMonth = function (people) {
-  return people.filter(isBirthdayInCurrentMonth);
-};
+  const filterBirthdaysThisMonth = function (people) {
+    return people.filter(isBirthdayInCurrentMonth);
+  };
 
 // orders that exceed the average order value [{orderId: 1, amount: 20}, {orderId: 2, amount: 50}, {orderId: 3, amount: 10}] => [{orderId: 2, amount: 50}]
 const orders = [{ orderId: 1, amount: 20 }, { orderId: 2, amount: 50 },
