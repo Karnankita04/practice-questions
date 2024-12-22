@@ -227,16 +227,14 @@ const filterBirthdaysThisMonth = function (people) {
 
 // orders that exceed the average order value [{orderId: 1, amount: 20}, {orderId: 2, amount: 50}, {orderId: 3, amount: 10}] => [{orderId: 2, amount: 50}]
 
-const isAboveAverage = function (values, attribute) {
-  return function (product) {
-
-    return product[attribute] > average;
-  };
-};
-
 const filterHighValueOrders = function (orders) {
-  const values = orders.map(getValues("amount"));
-  return orders.filter(isAboveAverage(values, "amount"));
+  const amounts = getValues("amount");
+  const values = orders.map(amounts);
+  const average = getAverage(values);
+
+  return orders.filter(function (order) {
+    return order.amount > average;
+  });
 };
 
 // books with reviews higher than the average rating [{title: "Book 1", rating: 4}, {title: "Book 2", rating: 5}, {title: "Book 3", rating: 3}] => [{title: "Book 2", rating: 5}]
@@ -253,8 +251,8 @@ const filterTopRatedBooks = function (books) {
 // employees whose salary is higher than the department average [{name: "Alice", salary: 5000, department: "HR"}, {name: "Bob", salary: 7000, department: "HR"}, {name: "Charlie", salary: 4000, department: "IT"}] => [{name: "Bob", salary: 7000, department: "HR"}]
 const filterHighSalaryEmployees = function (employees) {
 
-  const getSalaries = getValues('salary');
-  const values = employees.map(getSalaries);
+  const salaries = getValues('salary');
+  const values = employees.map(salaries);
   const average = getAverage(values);
 
   return employees.filter(function (employee) {
@@ -299,7 +297,15 @@ const filterPopularPosts = function (posts) {
 };
 
 // users who have posted more than the average number of posts [{username: "Alice", postCount: 5}, {username: "Bob", postCount: 8}, {username: "Charlie", postCount: 3}] => [{username: "Bob", postCount: 8}]
-const filterActiveUsersByPostCount = function (users) { };
+const filterActiveUsersByPostCount = function (users) {
+  const postCounts = getValues("postCount");
+  const values = users.map(postCounts);
+  const average = getAverage(values);
+
+  return users.filter(function (user) {
+    return user.postCount > average;
+  });
+};
 
 // filter people older than a certain age [{name: "Alice", age: 25}, {name: "Bob", age: 30}, {name: "Charlie", age: 22}] => [{name: "Bob", age: 30}]
 const filterByAge = function (people, age) { };
@@ -638,8 +644,11 @@ const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
   [{ name: "City B", population: 5000 }]],
 
 [filterPopularPosts, [{ postId: 1, likes: 100 }, { postId: 2, likes: 200 },
-{ postId: 3, likes: 150 }], [{ postId: 2, likes: 200 }]]
+{ postId: 3, likes: 150 }], [{ postId: 2, likes: 200 }]],
 
+[filterActiveUsersByPostCount, [{ username: "Alice", postCount: 5 },
+{ username: "Bob", postCount: 8 }, { username: "Charlie", postCount: 3 }],
+  [{ username: "Bob", postCount: 8 }]]
 ];
 
 const test = function (testCase) {
