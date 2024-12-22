@@ -1,6 +1,4 @@
 // squares of [1, 2, 3] => [1, 4, 9]
-const numbers = [1, 2, 3];
-
 const squaresOf = function (numbers) {
   return numbers.map(function (number) {
     return number * number;
@@ -8,41 +6,30 @@ const squaresOf = function (numbers) {
 };
 
 // lengths of ["apple", "banana", "kiwi"] => [5, 6, 4]
-const strings = ["apple", "banana", "kiwi"];
-
 const lengthsOf = function (strings) {
   return strings.map(function (string) { return string.length; });
 };
 
 // uppercase of ["hello", "world"] => ["HELLO", "WORLD"]
-const strings = ["hello", "world"];
-
 const uppercaseOf = function (strings) {
   return strings.map(function (string) { return string.toUpperCase(); });
 };
 
 // first characters of ["apple", "banana", "kiwi"] => ["a", "b", "k"]
-const strings = ["apple", "banana", "kiwi"];
-
 const firstCharactersOf = function (strings) {
   return strings.map(function (string) { return string.slice(0, 1); });
 };
 
 // truth values of [0, 1, 2, 3] => [false, true, true, true]
 // Assume non-zero numbers are true, and zero is false
-const numbers = [0, 1, 2, 3];
-
 const truthValuesOf = function (numbers) {
-  return numbers.map(function (number) { return !(number === 0); });
+  return numbers.map(function (number) { return number !== 0; });
 };
 
 // reverse strings of ["hello", "world"] => ["olleh", "dlrow"]
-const strings = ["hello", "world"];
-
 const reversedStringsOf = function (strings) {
   return strings.map(function (string) {
-    return string.split("")
-      .reverse().join("");
+    return [...string].reverse().join("");
   });
 };
 
@@ -402,3 +389,30 @@ const summarizeBookChapters = function (books) { };
 // [{name: "Concert", attendees: [{firstName: "John", lastName: "Doe"}, {firstName: "Jane", lastName: "Smith"}]}, {name: "Conference", attendees: [{firstName: "Bob", lastName: "Brown"}]}]
 // => [{name: "Concert", attendees: ["John Doe", "Jane Smith"]}, {name: "Conference", attendees: ["Bob Brown"]}]
 const getEventAttendees = function (events) { };
+
+const testCases = [
+  [squaresOf, [1, 2, 3], [1, 4, 9]],
+
+  [lengthsOf, ["apple", "banana", "kiwi"], [5, 6, 4]],
+
+  [uppercaseOf, ["hello", "world"], ["HELLO", "WORLD"]],
+
+  [firstCharactersOf, ["apple", "banana", "kiwi"], ["a", "b", "k"]],
+
+  [truthValuesOf, [0, 1, 2, 3], [false, true, true, true]],
+
+  [reversedStringsOf, ["hello", "world"], ["olleh", "dlrow"]]
+];
+
+const test = function (testCase) {
+  const [func, input, expected] = [...testCase];
+  const actual = func(input);
+
+  return [func, actual, expected];
+};
+
+function displayActualAndExpected() {
+  console.log(test(testCases.at(-1)));
+}
+
+displayActualAndExpected();

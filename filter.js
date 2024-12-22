@@ -193,7 +193,11 @@ const filterBelowAveragePrice = function (products) {
 const filterRecentActiveUsers = function (users) {
 };
 
-// students who passed all subjects [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}, {name: "Jane", subjects: [{name: "Math", passed: false}, {name: "Science", passed: true}]}] => [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}]
+// students who passed all subjects [{name: "John", subjects: 
+// [{name: "Math", passed: true}, {name: "Science", passed: true}]},
+//  {name: "Jane", subjects: [{name: "Math", passed: false}, 
+// {name: "Science", passed: true}]}] => [{name: "John", subjects: 
+// [{name: "Math", passed: true}, {name: "Science", passed: true}]}]
 
 const isPassed = function (subject) {
   return subject.passed;
@@ -250,16 +254,8 @@ const filterHighSalaryEmployees = function (employees) {
 
 // cities with a population higher than the median [{name: "City A", population: 2000}, {name: "City B", population: 5000}, {name: "City C", population: 3000}] => [{name: "City B", population: 5000}]
 
-const getPopulation = function (city) {
-  return city.population;
-};
-
 const filterCitiesAboveMedianPopulation = function (cities) {
-  const population = cities.map(getPopulation).sort(function (a, b) {
-    return a - b;
-  });
 
-  return population;
 };
 
 // posts with more than the average number of likes [{postId: 1, likes: 100}, {postId: 2, likes: 200}, {postId: 3, likes: 150}] => [{postId: 2, likes: 200}]
