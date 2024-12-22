@@ -41,11 +41,17 @@ const doubleLettersOf = function (strings) {
 };
 
 // boolean negation of [true, false, true] => [false, true, false]
-const negatedBooleansOf = function (booleans) { };
+const negatedBooleansOf = function (booleans) {
+  return booleans.map(function (boolean) {
+    return !boolean;
+  });
+};
 
 // character codes of ["a", "b", "c"] => [97, 98, 99]
 // Use the `charCodeAt` method on each string
-const charCodesOf = function (strings) { };
+const charCodesOf = function (strings) {
+
+};
 
 // extract domain names from ["user1@gmail.com", "admin@yahoo.com"] => ["gmail.com", "yahoo.com"]
 const domainNamesOf = function (emails) { };
@@ -407,7 +413,9 @@ const testCases = [
 
   [reversedStringsOf, ["hello", "world"], ["olleh", "dlrow"]],
 
-  [doubleLettersOf, ["cat", "dog", "bat"], ["ccaatt", "ddoogg", "bbaatt"]]
+  [doubleLettersOf, ["cat", "dog", "bat"], ["ccaatt", "ddoogg", "bbaatt"]],
+
+  [negatedBooleansOf, [true, false, true], [false, true, false]]
 ];
 
 const test = function (testCase) {
