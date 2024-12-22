@@ -193,40 +193,30 @@ const filterBelowAveragePrice = function (products) {
 };
 
 // active users who posted in the last 7 days [{username: "alice", lastPostDate: "2024-12-01", active: true}, {username: "bob", lastPostDate: "2024-11-20", active: true}] => [{username: "alice", lastPostDate: "2024-12-01", active: true}]
-const users = [{ username: "alice", lastPostDate: "2024-12-19", active: true },
-{ username: "bob", lastPostDate: "2024-11-20", active: true }];
-
-const havePostedInLast7Days = function (user) {
-  const currentDate = new Date();
-  const givenDate = new Date(user.lastPostDate);
-  const difference = currentDate - givenDate;
-
-  console.log(currentDate, givenDate, difference);
-  return Math.floor(difference / (1000 * 60 * 60 * 24)) <= 7;
-};
-
 const filterRecentActiveUsers = function (users) {
-  return users.filter(isActive).users.filter(havePostedInLast7Days);
 };
 
 // students who passed all subjects [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}, {name: "Jane", subjects: [{name: "Math", passed: false}, {name: "Science", passed: true}]}] => [{name: "John", subjects: [{name: "Math", passed: true}, {name: "Science", passed: true}]}]
 
-const students = [{
-  name: "John", subjects: [{ name: "Math", passed: true },
-  { name: "Science", passed: true }]
-},
-{
-  name: "Jane", subjects: [{ name: "Math", passed: false },
-  { name: "Science", passed: true }]
-}];
+const isPassed = function (subject) {
+  return subject.passed;
+};
 
 const areAllPassed = function (student) {
-  return student.subjects.every(function (subject) { return subject.passed; });
+  return student.subjects.every(isPassed);
 };
 
 const filterStudentsWithAllSubjectsPassed = function (students) {
   return students.filter(areAllPassed);
 };
+
+console.log(filterStudentsWithAllSubjectsPassed([{
+  name: "John", subjects: [{ name: "Math", passed: true },
+  { name: "Science", passed: true }]
+}, {
+  name: "Jane", subjects:
+    [{ name: "Math", passed: false }, { name: "Science", passed: true }]
+}]));
 
 // people whose birthday is this month [{name: "Alice", birthDate: "2024-12-01"}, {name: "Bob", birthDate: "2024-11-01"}] => [{name: "Alice", birthDate: "2024-12-01"}]
 
@@ -585,9 +575,7 @@ const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
   [{ orderDate: "2024-12-01" }]], [filterBelowAveragePrice,
   [{ name: "item1", price: 10 }, { name: "item2", price: 20 },
   { name: "item3", price: 5 }], [{ name: "item1", price: 10 },
-  { name: "item3", price: 5 }]
-]
-];
+  { name: "item3", price: 5 }]],];
 
 const areArrayEqual = function (array1, array2) {
   if (array1.length !== array2.length) {
