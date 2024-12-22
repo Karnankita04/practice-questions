@@ -1,6 +1,4 @@
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
-const numbers = [1, 2, 3, 4, 5];
-
 const isEven = function (number) {
   return (number & 1) === 0;
 };
@@ -10,7 +8,6 @@ const filterEvenNumbers = function (numbers) {
 };
 
 // words with more than 5 letters ["apple", "banana", "kiwi", "grape"] => ["banana"]
-const words = ["apple", "banana", "kiwi", "grape"];
 
 const isLengthMoreThan5 = function (word) {
   return word.length > 5;
@@ -21,7 +18,6 @@ const filterLongWords = function (words) {
 };
 
 // people older than 30 [{name: "Alice", age: 25}, {name: "Bob", age: 35}] => [{name: "Bob", age: 35}]
-const people = [{ name: "Alice", age: 25 }, { name: "Bob", age: 35 }];
 
 const isAbove30 = function (object) {
   return object.age > 30;
@@ -32,8 +28,6 @@ const filterAdults = function (people) {
 };
 
 // active users [{username: "alice", active: true}, {username: "bob", active: false}] => [{username: "alice", active: true}]
-const users = [{ username: "alice", active: true },
-{ username: "bob", active: false }];
 
 const isActive = function (user) {
   return user.active;
@@ -44,7 +38,6 @@ const filterActiveUsers = function (users) {
 };
 
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
-const numbers = [5, 12, 7, 18, 3];
 
 const isGreaterThan10 = function (number) {
   return number > 10;
@@ -54,8 +47,8 @@ const filterNumbersGreaterThanTen = function (numbers) {
 };
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-const books = [{ title: "Book 1", pages: 150 },
-{ title: "Book 2", pages: 250 }];
+// const books = [{ title: "Book 1", pages: 150 },
+// { title: "Book 2", pages: 250 }];
 
 const arePagesMoreThan200 = function (bookDetail) {
   return bookDetail.pages > 200;
@@ -78,7 +71,7 @@ const filterIncompleteProfiles = function (users) {
 };
 
 // students with grades above 80 [{name: "John", grade: 75}, {name: "Jane", grade: 85}] => [{name: "Jane", grade: 85}]
-const students = [{ name: "John", grade: 75 }, { name: "Jane", grade: 85 }];
+// const students = [{ name: "John", grade: 75 }, { name: "Jane", grade: 85 }];
 
 const isGradeAbove80 = function (student) {
   return student.grade > 80;
@@ -89,8 +82,8 @@ const filterHighGrades = function (students) {
 };
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
-const products = [{ product: "apple", inStock: true },
-{ product: "banana", inStock: false }];
+// const products = [{ product: "apple", inStock: true },
+// { product: "banana", inStock: false }];
 
 const areInStock = function (product) {
   return product.inStock;
@@ -101,7 +94,7 @@ const filterInStockProducts = function (products) {
 };
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-const orders = [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-21" }];
+// const orders = [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-21" }];
 const currentDate = "2025-01-21";
 
 const isDivisibleBy = function (dividend, divisor) {
@@ -162,12 +155,12 @@ const filterRecentOrders = function (orders) {
 const products = [{ name: "item1", price: 10 }, { name: "item2", price: 20 },
 { name: "item3", price: 5 }];
 
-const averageUnit = "price";
+// const averageUnit = "price";
 
-const getAverage = function (average, product) {
-  average += (product[averageUnit] / products.length);
-  return average;
-};
+// const getAverage = function (average, product) {
+//   average += (product[averageUnit] / products.length);
+//   return average;
+// };
 
 
 const isLowerThanAverage = function (product) {
@@ -233,8 +226,8 @@ const filterBirthdaysThisMonth = function (people) {
 const orders = [{ orderId: 1, amount: 20 }, { orderId: 2, amount: 50 },
 { orderId: 3, amount: 10 }];
 
-const averageUnit = "amount";
-const object = orders;
+// const averageUnit = "amount";
+// const object = orders;
 
 const getAverage = function (average, product) {
   average += (product[averageUnit] / object.length);
@@ -552,3 +545,40 @@ const findInStockItems = function (items, lookup) { };
 // Input: ["Lion", "Elephant", "Shark"], { "Lion": { habitat: "Jungle" }, "Elephant": { habitat: "Jungle" }, "Shark": { habitat: "Ocean" } } , "Jungle"
 // Output: ["Lion", "Elephant"]
 const findAnimalsByHabitat = function (animals, lookup) { };
+
+const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
+[filterLongWords, ["apple", "banana", "kiwi", "grape"], ["banana"]],
+[filterAdults, [{ name: "Alice", age: 25 }, { name: "Bob", age: 35 }],
+  [{ name: "Bob", age: 35 }]], [filterActiveUsers, [{ username: "alice", active: true },
+  { username: "bob", active: false }], [{ username: "alice", active: true }]],
+[filterNumbersGreaterThanTen, [5, 12, 7, 18, 3], [12, 18]],
+];
+
+const areArrayEqual = function (array1, array2) {
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  return array1.every(function (arr1Element, index) {
+    return array2[index] === arr1Element;
+  });
+};
+
+const getMark = function (actual, expected) {
+  return areArrayEqual(actual, expected) ? '✅' : '❌';
+};
+
+const somefunction = function (result, testCase) {
+  const [func, input, expected] = [...testCase];
+  const actual = func(input);
+  const mark = getMark(actual, expected);
+
+  result.push(mark, func, actual, expected);
+  return result;
+};
+
+function testAll() {
+  return testCases.reduce(somefunction, []);
+}
+
+console.log(testAll());
