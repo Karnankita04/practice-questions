@@ -43,7 +43,7 @@ const doubleLettersOf = function (strings) {
   const repeatedChar = strings.map(function (string) {
     return [...string].map(function (char) { return char.repeat(2); });
   });
-  
+
   return repeatedChar.map(joinArray);
 };
 
@@ -87,7 +87,18 @@ const repeatedStringsOf = function (strings) {
 };
 
 // count vowels in ["apple", "banana", "grape"] => [2, 3, 2]
-const countVowelsOf = function (strings) { };
+const countVowels = function (count, char) {
+  count += "aeiou".includes(char) ? 1 : 0;
+  return count;
+};
+
+const getNumOfVowels = function (string) {
+  return [...string].reduce(countVowels, 0);
+};
+
+const countVowelsOf = function (strings) {
+  return strings.map(getNumOfVowels);
+};
 
 // reverse arrays of [[1, 2, 3], [4, 5, 6]] => [[3, 2, 1], [6, 5, 4]]
 const reversedArraysOf = function (arrays) { };
@@ -449,6 +460,8 @@ const testCases = [
   [joinedArraysOf, [["a", "b"], ["c", "d"]], ["ab", "cd"]],
 
   [repeatedStringsOf, ["hi", "bye"], ["hihi", "byebye"]],
+
+  [countVowelsOf, ["apple", "banana", "grape"], [2, 3, 2]]
 ];
 
 const test = function (testCase) {
