@@ -42,14 +42,12 @@ const filterActiveUsers = function (users) {
 const isGreaterThan10 = function (number) {
   return number > 10;
 };
+
 const filterNumbersGreaterThanTen = function (numbers) {
   return numbers.filter(isGreaterThan10);
 };
 
 // books with more than 200 pages [{title: "Book 1", pages: 150}, {title: "Book 2", pages: 250}] => [{title: "Book 2", pages: 250}]
-// const books = [{ title: "Book 1", pages: 150 },
-// { title: "Book 2", pages: 250 }];
-
 const arePagesMoreThan200 = function (bookDetail) {
   return bookDetail.pages > 200;
 };
@@ -58,7 +56,8 @@ const filterLongBooks = function (books) {
   return books.filter(arePagesMoreThan200);
 };
 
-// users with incomplete profiles [{username: "alice", profileComplete: true}, {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
+// users with incomplete profiles [{username: "alice", profileComplete: true}, 
+// {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
 const profiles = [{ username: "alice", profileComplete: true },
 { username: "bob", profileComplete: false }];
 
@@ -82,8 +81,6 @@ const filterHighGrades = function (students) {
 };
 
 // products that are in stock [{product: "apple", inStock: true}, {product: "banana", inStock: false}] => [{product: "apple", inStock: true}]
-// const products = [{ product: "apple", inStock: true },
-// { product: "banana", inStock: false }];
 
 const areInStock = function (product) {
   return product.inStock;
@@ -94,8 +91,7 @@ const filterInStockProducts = function (products) {
 };
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-// const orders = [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-21" }];
-const currentDate = "2025-01-21";
+const currentDate = "2024-12-22";
 
 const isDivisibleBy = function (dividend, divisor) {
   return (dividend % divisor === 0);
@@ -109,22 +105,34 @@ const isLeapYear = function (year) {
   return isDivisibleBy400 || (isDivisibleBy4 && !isDivisibleBy100);
 };
 
+const something = function (givenMonth) {
+  return givenMonth % 2 === 1;
+};
+
+const invert = function (f) {
+  return function (...args) {
+    return !f(...args);
+  };
+};
+
+const numberOfDays = function (givenMonth) {
+  if (givenMonth <= 7) {
+    return something(givenMonth) ? 31 : 30;
+  }
+
+  return invert(something)(givenMonth) ? 31 : 30;
+};
+
 const getDays = function (givenMonth, givenYear) {
-  let days = 0;
+  if (givenMonth === 2) {
+    return isLeapYear(givenYear) ? 29 : 28;
+  }
 
   if (givenMonth <= 7) {
-    days = givenMonth % 2 === 1 ? 31 : 30;
+    return numberOfDays(givenMonth);
   }
 
-  if (givenMonth === 2) {
-    days = isLeapYear(givenYear) ? 29 : 28;
-  }
-
-  if (givenMonth >= 8) {
-    days = givenMonth % 2 === 1 ? 30 : 31;
-  }
-
-  return days;
+  return numberOfDays(givenMonth);
 };
 
 const arePlacedInLast30Days = function (order) {
@@ -149,27 +157,39 @@ const filterRecentOrders = function (orders) {
   return orders.filter(arePlacedInLast30Days);
 };
 
-// products with a price lower than the average [{name: "item1", price: 10},
-//  {name: "item2", price: 20}, {name: "item3", price: 5}] =>
-//  [{name: "item1", price: 10}, {name: "item3", price: 5}]
-const products = [{ name: "item1", price: 10 }, { name: "item2", price: 20 },
-{ name: "item3", price: 5 }];
+// products with a price lower than the average [{name: "item1", price: 10},{name: "item2", price: 20}, {name: "item3", price: 5}] =>[{name: "item1", price: 10}, {name: "item3", price: 5}]
 
-// const averageUnit = "price";
+const getAverage = function (total, numberOfElements) {
+  return Math.floor(total / numberOfElements);
+};
 
-// const getAverage = function (average, product) {
-//   average += (product[averageUnit] / products.length);
-//   return average;
-// };
+const sum = function (totalSoFar, number) {
+  return totalSoFar + number;
+};
 
+const getPrice = function (product) {
+  return product.price;
+};
 
-const isLowerThanAverage = function (product) {
-  const average = products.reduce(getAverage, 0);
-  return product[averageUnit] < average;
+const getValues = function (attribute) {
+  return function (product) {
+    return product[attribute];
+  };
+};
+
+const isBelowAverage = function (values, attribute) {
+  return function (product) {
+    const total = values.reduce(sum, 0);
+    const average = getAverage(total, values.length);
+
+    return product[attribute] < average;
+  };
 };
 
 const filterBelowAveragePrice = function (products) {
-  return products.filter(isLowerThanAverage);
+  const values = products.map(getValues("price"));
+
+  return products.filter(isBelowAverage(values, "price"));
 };
 
 // active users who posted in the last 7 days [{username: "alice", lastPostDate: "2024-12-01", active: true}, {username: "bob", lastPostDate: "2024-11-20", active: true}] => [{username: "alice", lastPostDate: "2024-12-01", active: true}]
@@ -229,13 +249,13 @@ const orders = [{ orderId: 1, amount: 20 }, { orderId: 2, amount: 50 },
 // const averageUnit = "amount";
 // const object = orders;
 
-const getAverage = function (average, product) {
-  average += (product[averageUnit] / object.length);
-  return average;
-};
+// const getAverage = function (average, product) {
+//   average += (product[averageUnit] / object.length);
+//   return average;
+// };
 
 const isAboveAverage = function (element) {
-  const average = object.reduce(getAverage, 0);
+  const average = object.reduce(average, 0);
   return element[averageUnit] > average;
 };
 
@@ -551,7 +571,22 @@ const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
 [filterAdults, [{ name: "Alice", age: 25 }, { name: "Bob", age: 35 }],
   [{ name: "Bob", age: 35 }]], [filterActiveUsers, [{ username: "alice", active: true },
   { username: "bob", active: false }], [{ username: "alice", active: true }]],
-[filterNumbersGreaterThanTen, [5, 12, 7, 18, 3], [12, 18]],
+[filterNumbersGreaterThanTen, [5, 12, 7, 18, 3], [12, 18]], [filterLongBooks,
+  [{ title: "Book 1", pages: 150 }, { title: "Book 2", pages: 250 }],
+  [{ title: "Book 2", pages: 250 }]], [filterIncompleteProfiles,
+  [{ username: "alice", profileComplete: true },
+  { username: "bob", profileComplete: false }],
+  [{ username: "bob", profileComplete: false }]], [filterHighGrades,
+  [{ name: "John", grade: 75 }, { name: "Jane", grade: 85 }],
+  [{ name: "Jane", grade: 85 }]], [filterInStockProducts,
+  [{ product: "apple", inStock: true }, { product: "banana", inStock: false }],
+  [{ product: "apple", inStock: true }]], [filterRecentOrders,
+  [{ orderDate: "2024-11-01" }, { orderDate: "2024-12-01" }],
+  [{ orderDate: "2024-12-01" }]], [filterBelowAveragePrice,
+  [{ name: "item1", price: 10 }, { name: "item2", price: 20 },
+  { name: "item3", price: 5 }], [{ name: "item1", price: 10 },
+  { name: "item3", price: 5 }]
+]
 ];
 
 const areArrayEqual = function (array1, array2) {
@@ -564,16 +599,11 @@ const areArrayEqual = function (array1, array2) {
   });
 };
 
-const getMark = function (actual, expected) {
-  return areArrayEqual(actual, expected) ? '✅' : '❌';
-};
-
 const somefunction = function (result, testCase) {
   const [func, input, expected] = [...testCase];
   const actual = func(input);
-  const mark = getMark(actual, expected);
 
-  result.push(mark, func, actual, expected);
+  result.push([func, actual, expected]);
   return result;
 };
 
