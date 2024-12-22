@@ -50,7 +50,9 @@ const negatedBooleansOf = function (booleans) {
 // character codes of ["a", "b", "c"] => [97, 98, 99]
 // Use the `charCodeAt` method on each string
 const charCodesOf = function (strings) {
-
+  return strings.map(function (char) {
+    return char.charCodeAt();
+  });
 };
 
 // extract domain names from ["user1@gmail.com", "admin@yahoo.com"] => ["gmail.com", "yahoo.com"]
@@ -415,7 +417,9 @@ const testCases = [
 
   [doubleLettersOf, ["cat", "dog", "bat"], ["ccaatt", "ddoogg", "bbaatt"]],
 
-  [negatedBooleansOf, [true, false, true], [false, true, false]]
+  [negatedBooleansOf, [true, false, true], [false, true, false]],
+
+  [charCodesOf, ["a", "b", "c"], [97, 98, 99]]
 ];
 
 const test = function (testCase) {
