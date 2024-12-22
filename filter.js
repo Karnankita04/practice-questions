@@ -1,5 +1,11 @@
 // even numbers [1, 2, 3, 4, 5] => [2, 4]
 
+const invert = function (f) {
+  return function (...args) {
+    return !f(...args);
+  };
+};
+
 const isGreater = function (num1) {
   return function (num2) {
     return num1 > num2;
@@ -47,7 +53,7 @@ const filterActiveUsers = function (users) {
 // numbers greater than 10 [5, 12, 7, 18, 3] => [12, 18]
 
 const isGreaterThan10 = function (number) {
-  return number > 10;
+  return isGreater(number)(10);
 };
 
 const filterNumbersGreaterThanTen = function (numbers) {
@@ -65,15 +71,12 @@ const filterLongBooks = function (books) {
 
 // users with incomplete profiles [{username: "alice", profileComplete: true}, 
 // {username: "bob", profileComplete: false}] => [{username: "bob", profileComplete: false}]
-const profiles = [{ username: "alice", profileComplete: true },
-{ username: "bob", profileComplete: false }];
-
-const isProfileCompelete = function (profile) {
-  return !profile.profileComplete;
+const isProfileComplete = function (profile) {
+  return profile.profileComplete;
 };
 
 const filterIncompleteProfiles = function (users) {
-  return users.filter(isProfileCompelete);
+  return users.filter(invert(isProfileComplete));
 };
 
 // students with grades above 80 [{name: "John", grade: 75}, {name: "Jane", grade: 85}] => [{name: "Jane", grade: 85}]
@@ -98,8 +101,6 @@ const filterInStockProducts = function (products) {
 };
 
 // orders placed in the last 30 days [{orderDate: "2024-11-01"}, {orderDate: "2024-12-01"}] => [{orderDate: "2024-12-01"}]
-const currentDate = "2024-12-22";
-
 const isDivisibleBy = function (dividend, divisor) {
   return (dividend % divisor === 0);
 };
@@ -112,22 +113,12 @@ const isLeapYear = function (year) {
   return isDivisibleBy400 || (isDivisibleBy4 && !isDivisibleBy100);
 };
 
-const something = function (givenMonth) {
-  return givenMonth % 2 === 1;
-};
-
-const invert = function (f) {
-  return function (...args) {
-    return !f(...args);
-  };
-};
-
 const numberOfDays = function (givenMonth) {
   if (givenMonth <= 7) {
-    return something(givenMonth) ? 31 : 30;
+    return isEven(givenMonth) ? 30 : 31;
   }
 
-  return invert(something)(givenMonth) ? 31 : 30;
+  return invert(isEven)(givenMonth) ? 31 : 30;
 };
 
 const getDays = function (givenMonth, givenYear) {
@@ -135,28 +126,31 @@ const getDays = function (givenMonth, givenYear) {
     return isLeapYear(givenYear) ? 29 : 28;
   }
 
-  if (givenMonth <= 7) {
-    return numberOfDays(givenMonth);
-  }
+  const monthHaving30Days = [4, 6, 9, 11];
+  return monthHaving30Days.includes(givenMonth) ? 30 : 31;
+};
 
-  return numberOfDays(givenMonth);
+const currentDate = "2024-12-22";
+
+const getYearMonthDay = function (date) {
+  const year = +date.substring(0, 4);
+  const month = +date.substring(5, 7);
+  const day = +date.substring(8, 10);
+  return [year, month, day];
 };
 
 const arePlacedInLast30Days = function (order) {
-  const currentMonth = +currentDate.substring(5, 7);
-  const givenMonth = +order.orderDate.substring(5, 7);
-  const givenYear = +order.orderDate.substring(0, 4);
-  const currentYear = +order.orderDate.substring(0, 4);
-  const todaysDate = +currentDate.substring(8, 10);
-  const givenDate = +order.orderDate.substring(8, 10);
+  const [currYear, currMonth, currDay] = getYearMonthDay(currentDate);
+  const [givenYear, givenMonth, givenDay] = getYearMonthDay(order.orderDate);
   const days = getDays(givenMonth, givenYear);
-  const are30DaysFromLastToCurrMonth = currentMonth - givenMonth === 1 &&
-    (days - givenDate) + todaysDate <= 30;
 
-  const areLessThanOrEqualTo30DaysInCurrMonth = currentMonth - givenMonth === 0
-    && todaysDate - givenDate < 30;
+  const are30DaysFromLastToCurrMonth = currMonth - givenMonth === 1 &&
+    (days - givenDay) + currDay <= 30;
 
-  return givenYear === currentYear && currentMonth - givenMonth <= 1 &&
+  const areLessThanOrEqualTo30DaysInCurrMonth = currMonth - givenMonth === 0
+    && currDay - givenDay < 30;
+
+  return givenYear === currYear && currMonth - givenMonth <= 1 &&
     are30DaysFromLastToCurrMonth || areLessThanOrEqualTo30DaysInCurrMonth;
 };
 
@@ -223,16 +217,8 @@ console.log(filterStudentsWithAllSubjectsPassed([{
 
 // people whose birthday is this month [{name: "Alice", birthDate: "2024-12-01"}, {name: "Bob", birthDate: "2024-11-01"}] => [{name: "Alice", birthDate: "2024-12-01"}]
 
-const people = [{ name: "Alice", birthDate: "2024-12-01" },
-{ name: "Bob", birthDate: "2024-11-01" }];
-
-const isBirthdayInCurrentMonth = function (person) {
-  const todaysDate = "2024-12-22";
-  return person.birthDate.substring(5, 7) === todaysDate.substring(5, 7);
-};
-
 const filterBirthdaysThisMonth = function (people) {
-  return people.filter(isBirthdayInCurrentMonth);
+  return people.filter();
 };
 
 // orders that exceed the average order value [{orderId: 1, amount: 20}, {orderId: 2, amount: 50}, {orderId: 3, amount: 10}] => [{orderId: 2, amount: 50}]
@@ -263,7 +249,18 @@ const filterHighSalaryEmployees = function (employees) {
 };
 
 // cities with a population higher than the median [{name: "City A", population: 2000}, {name: "City B", population: 5000}, {name: "City C", population: 3000}] => [{name: "City B", population: 5000}]
-const filterCitiesAboveMedianPopulation = function (cities) { };
+
+const getPopulation = function (city) {
+  return city.population;
+};
+
+const filterCitiesAboveMedianPopulation = function (cities) {
+  const population = cities.map(getPopulation).sort(function (a, b) {
+    return a - b;
+  });
+
+  return population;
+};
 
 // posts with more than the average number of likes [{postId: 1, likes: 100}, {postId: 2, likes: 200}, {postId: 3, likes: 150}] => [{postId: 2, likes: 200}]
 const filterPopularPosts = function (posts) { };
@@ -601,7 +598,12 @@ const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
 [filterHighSalaryEmployees, [{ name: "Alice", salary: 5000, department: "HR" },
 { name: "Bob", salary: 7000, department: "HR" },
 { name: "Charlie", salary: 4000, department: "IT" }],
-  [{ name: "Bob", salary: 7000, department: "HR" }]]
+  [{ name: "Bob", salary: 7000, department: "HR" }]],
+
+[filterCitiesAboveMedianPopulation, [{ name: "City A", population: 2000 },
+{ name: "City B", population: 5000 }, { name: "City C", population: 3000 }],
+  { name: "Delhi", population: 30000 },
+  [{ name: "City B", population: 5000 }]],
 
 ];
 
