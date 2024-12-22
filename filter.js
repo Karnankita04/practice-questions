@@ -273,8 +273,8 @@ const getMedian = function (values) {
 };
 
 const filterCitiesAboveMedianPopulation = function (cities) {
-  const getPopulations = getValues("population");
-  const values = cities.map(getPopulations);
+  const populations = getValues("population");
+  const values = cities.map(populations);
   const median = getMedian(values);
 
   return cities.filter(function (city) {
@@ -283,7 +283,20 @@ const filterCitiesAboveMedianPopulation = function (cities) {
 };
 
 // posts with more than the average number of likes [{postId: 1, likes: 100}, {postId: 2, likes: 200}, {postId: 3, likes: 150}] => [{postId: 2, likes: 200}]
-const filterPopularPosts = function (posts) { };
+
+const getMaximum = function (values) {
+  return Math.max(...values);
+};
+
+const filterPopularPosts = function (posts) {
+  const likes = getValues("likes");
+  const values = posts.map(likes);
+  const maximum = getMaximum(values);
+
+  return posts.filter(function (post) {
+    return post.likes === maximum;
+  });
+};
 
 // users who have posted more than the average number of posts [{username: "Alice", postCount: 5}, {username: "Bob", postCount: 8}, {username: "Charlie", postCount: 3}] => [{username: "Bob", postCount: 8}]
 const filterActiveUsersByPostCount = function (users) { };
@@ -622,7 +635,10 @@ const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
 
 [filterCitiesAboveMedianPopulation, [{ name: "City A", population: 2000 },
 { name: "City B", population: 5000 }, { name: "City C", population: 3000 }],
-  [{ name: "City B", population: 5000 }]]
+  [{ name: "City B", population: 5000 }]],
+
+[filterPopularPosts, [{ postId: 1, likes: 100 }, { postId: 2, likes: 200 },
+{ postId: 3, likes: 150 }], [{ postId: 2, likes: 200 }]]
 
 ];
 
