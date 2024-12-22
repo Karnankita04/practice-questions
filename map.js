@@ -34,7 +34,11 @@ const reversedStringsOf = function (strings) {
 };
 
 // double letters of ["cat", "dog", "bat"] => ["ccaat", "ddoog", "bbaatt"]
-const doubleLettersOf = function (strings) { };
+const doubleLettersOf = function (strings) {
+  return strings.map(function (string) {
+    return [...string].map(function (char) { return char.repeat(2); });
+  }).map(function (string) { return string.join(""); });
+};
 
 // boolean negation of [true, false, true] => [false, true, false]
 const negatedBooleansOf = function (booleans) { };
@@ -401,7 +405,9 @@ const testCases = [
 
   [truthValuesOf, [0, 1, 2, 3], [false, true, true, true]],
 
-  [reversedStringsOf, ["hello", "world"], ["olleh", "dlrow"]]
+  [reversedStringsOf, ["hello", "world"], ["olleh", "dlrow"]],
+
+  [doubleLettersOf, ["cat", "dog", "bat"], ["ccaatt", "ddoogg", "bbaatt"]]
 ];
 
 const test = function (testCase) {
