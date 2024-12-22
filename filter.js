@@ -229,7 +229,6 @@ const filterBirthdaysThisMonth = function (people) {
 
 const isAboveAverage = function (values, attribute) {
   return function (product) {
-    const average = getAverage(values);
 
     return product[attribute] > average;
   };
@@ -242,20 +241,45 @@ const filterHighValueOrders = function (orders) {
 
 // books with reviews higher than the average rating [{title: "Book 1", rating: 4}, {title: "Book 2", rating: 5}, {title: "Book 3", rating: 3}] => [{title: "Book 2", rating: 5}]
 const filterTopRatedBooks = function (books) {
-  const values = books.map(getValues("rating"));
-  return books.filter(isAboveAverage(values, "rating"));
+  const ratings = getValues("rating");
+  const values = books.map(ratings);
+  const average = getAverage(values);
+
+  return books.filter(function (book) {
+    return book.rating > average;
+  });
 };
 
 // employees whose salary is higher than the department average [{name: "Alice", salary: 5000, department: "HR"}, {name: "Bob", salary: 7000, department: "HR"}, {name: "Charlie", salary: 4000, department: "IT"}] => [{name: "Bob", salary: 7000, department: "HR"}]
 const filterHighSalaryEmployees = function (employees) {
-  const values = employees.map(getValues("salary"));
-  return employees.filter(isAboveAverage(values, "salary"));
+
+  const getSalaries = getValues('salary');
+  const values = employees.map(getSalaries);
+  const average = getAverage(values);
+
+  return employees.filter(function (employee) {
+    return employee.salary > average;
+  });
 };
 
 // cities with a population higher than the median [{name: "City A", population: 2000}, {name: "City B", population: 5000}, {name: "City C", population: 3000}] => [{name: "City B", population: 5000}]
 
-const filterCitiesAboveMedianPopulation = function (cities) {
+const getMedian = function (values) {
+  const middle = Math.floor(values.length / 2);
+  const middleElements = isEven(values.length) ? [values[middle - 1],
+  values[middle]] : [values[middle]];
 
+  return getAverage(middleElements);
+};
+
+const filterCitiesAboveMedianPopulation = function (cities) {
+  const getPopulations = getValues("population");
+  const values = cities.map(getPopulations);
+  const median = getMedian(values);
+
+  return cities.filter(function (city) {
+    return city.population >= median;
+  });
 };
 
 // posts with more than the average number of likes [{postId: 1, likes: 100}, {postId: 2, likes: 200}, {postId: 3, likes: 150}] => [{postId: 2, likes: 200}]
@@ -598,8 +622,7 @@ const testCases = [[filterEvenNumbers, [1, 2, 3, 4, 5], [2, 4]],
 
 [filterCitiesAboveMedianPopulation, [{ name: "City A", population: 2000 },
 { name: "City B", population: 5000 }, { name: "City C", population: 3000 }],
-  { name: "Delhi", population: 30000 },
-  [{ name: "City B", population: 5000 }]],
+  [{ name: "City B", population: 5000 }]]
 
 ];
 
