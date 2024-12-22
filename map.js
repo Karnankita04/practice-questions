@@ -34,10 +34,17 @@ const reversedStringsOf = function (strings) {
 };
 
 // double letters of ["cat", "dog", "bat"] => ["ccaat", "ddoog", "bbaatt"]
+
+const joinArray = function (string) {
+  return string.join("");
+};
+
 const doubleLettersOf = function (strings) {
-  return strings.map(function (string) {
+  const repeatedChar = strings.map(function (string) {
     return [...string].map(function (char) { return char.repeat(2); });
-  }).map(function (string) { return string.join(""); });
+  });
+  
+  return repeatedChar.map(joinArray);
 };
 
 // boolean negation of [true, false, true] => [false, true, false]
@@ -75,7 +82,9 @@ const joinedArraysOf = function (arrayOfArrays) {
 };
 
 // repeat strings in ["hi", "bye"] => ["hihi", "byebye"]
-const repeatedStringsOf = function (strings) { };
+const repeatedStringsOf = function (strings) {
+  return strings.map(function (string) { return string.repeat(2); });
+};
 
 // count vowels in ["apple", "banana", "grape"] => [2, 3, 2]
 const countVowelsOf = function (strings) { };
@@ -437,7 +446,9 @@ const testCases = [
   [splitWordsOf, ["hello world", "goodbye moon"], [["hello", "world"],
   ["goodbye", "moon"]]],
 
-  [joinedArraysOf, [["a", "b"], ["c", "d"]], ["ab", "cd"]]
+  [joinedArraysOf, [["a", "b"], ["c", "d"]], ["ab", "cd"]],
+
+  [repeatedStringsOf, ["hi", "bye"], ["hihi", "byebye"]],
 ];
 
 const test = function (testCase) {
