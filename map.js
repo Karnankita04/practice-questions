@@ -63,7 +63,11 @@ const domainNamesOf = function (emails) {
 };
 
 // split words in ["hello world", "goodbye moon"] => [["hello", "world"], ["goodbye", "moon"]]
-const splitWordsOf = function (strings) { };
+const splitWordsOf = function (strings) {
+  return strings.map(function (string) {
+    return string.split(" ");
+  });
+};
 
 // join arrays of [["a", "b"], ["c", "d"]] => ["ab", "cd"]
 const joinedArraysOf = function (arrayOfArrays) { };
@@ -426,7 +430,10 @@ const testCases = [
   [charCodesOf, ["a", "b", "c"], [97, 98, 99]],
 
   [domainNamesOf, ["user1@gmail.com", "admin@yahoo.com"],
-    ["gmail.com", "yahoo.com"]]
+    ["gmail.com", "yahoo.com"]],
+
+  [splitWordsOf, ["hello world", "goodbye moon"], [["hello", "world"],
+  ["goodbye", "moon"]]]
 ];
 
 const test = function (testCase) {
