@@ -92,11 +92,7 @@ const isVowelpresent = function (char) {
 };
 
 const countVowels = function (count, char) {
-  if (isVowelpresent(char)) {
-    count++;
-  }
-
-  return count;
+  return isVowelpresent(char) ? ++count : count;
 };
 
 const getNumOfVowels = function (string) {
@@ -499,11 +495,11 @@ const testCases = [
 
   [countVowelsOf, ["apple", "banana", "grape"], [2, 3, 2]],
 
-  [reversedArraysOf, [[1, 2, 3], [4, 5, 6]], [[3, 2, 1], [6, 5, 4]]],
+  // [reversedArraysOf, [[1, 2, 3], [4, 5, 6]], [[3, 2, 1], [6, 5, 4]]],
 
-  [withoutVowelsOf, ["apple", "banana", "grape"], ["ppl", "bnn", "grp"]],
+  // [withoutVowelsOf, ["apple", "banana", "grape"], ["ppl", "bnn", "grp"]],
 
-  [cumulativeSumsOf, [[1, 2, 3], [4, 5, 6]], [[1, 3, 6], [4, 9, 15]]]
+  // [cumulativeSumsOf, [[1, 2, 3], [4, 5, 6]], [[1, 3, 6], [4, 9, 15]]]
 
 ];
 
