@@ -128,14 +128,12 @@ const withoutVowelsOf = function (strings) {
 
 // cumulative sums of [[1, 2, 3], [4, 5, 6]] => [[1, 3, 6], [4, 9, 15]]
 // Example: cumulative sum of [1, 2, 3] is [1, 1+2, 1+2+3]
-const getSumSoFar = function (sum, number) {
-  const numToPush = sum.length === 0 ? number : sum[sum.length - 1] + number;
-  sum.push(numToPush);
-  return sum;
-};
-
 const getCumulativeSum = function (numbers) {
-  return numbers.reduce(getSumSoFar, []);
+  let sum = 0;
+  return numbers.map(function (number) {
+    sum = number + sum;
+    return sum;
+  });
 };
 
 const cumulativeSumsOf = function (arrays) {
