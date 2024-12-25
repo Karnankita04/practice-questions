@@ -212,13 +212,30 @@ const capitalizedFirstLettersOf = function (strings) {
 };
 
 // find word lengths in ["apple pie", "banana split"] => [[5, 3], [6, 5]]
-const wordLengthsOf = function (strings) {};
+const wordLengthsOf = function (strings) {
+  return strings.map((string) => string.split(" ").map((word) => word.length));
+};
 
 // flatten nested arrays of [[1, [2, 3]], [4, [5, 6]]] => [[1, 2, 3], [4, 5, 6]]
 const flattenedArraysOf = function (arrays) {};
 
 // sort letters in ["cat", "bat", "rat"] alphabetically => ["act", "abt", "art"]
-const sortedLettersOf = function (strings) {};
+const sortedLettersOf = function (strings) {
+  return strings.map((string) =>
+    string
+      .split("")
+      .sort(function (a, b) {
+        if (a < b) {
+          return -1;
+        }
+        if (b < a) {
+          return 1;
+        }
+        return 0;
+      })
+      .join("")
+  );
+};
 
 // wrap strings in brackets ["apple", "banana"] => ["[apple]", "[banana]"]
 const wrappedStringsOf = function (strings) {};
