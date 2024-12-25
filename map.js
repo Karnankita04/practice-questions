@@ -304,13 +304,19 @@ const fullNameAndAge = function (objects) {
 };
 
 // extract scores from [{ name: "Alice", scores: { math: 90, english: 85 } }, { name: "Bob", scores: { math: 80, english: 75 } }] => [[90, 85], [80, 75]]
-const extractScores = function (objects) {};
+const extractScores = function (objects) {
+  return objects.map(({ scores: { math, english } }) => [math, english]);
+};
 
 // extract key-value pairs from [{ key: "a", value: 1 }, { key: "b", value: 2 }] => [["a", 1], ["b", 2]]
-const keyValuePairs = function (objects) {};
+const keyValuePairs = function (objects) {
+  return objects.map(({ key, value }) => [key, value]);
+};
 
 // split full names into first and last names from [{ name: "Alice Smith" }, { name: "Bob Brown" }] => [["Alice", "Smith"], ["Bob", "Brown"]]
-const splitFullNames = function (objects) {};
+const splitFullNames = function (objects) {
+  return objects.map(({ name }) => name.split(" "));
+};
 
 // normalize scores so they fall between 0 and 1 based on the max score from [{ name: "Alice", score: 80 }, { name: "Bob", score: 100 }] => [0.8, 1]
 const normalizeScores = function (objects) {};

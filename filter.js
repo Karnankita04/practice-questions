@@ -344,7 +344,9 @@ const filterByMathGrade = function (students, grade) {
 // filter events that occur before a certain date [{name: "Event1", date: "2024-12-01"}, {name: "Event2", date: "2024-11-15"}] => [{name: "Event2", date: "2024-11-15"}]
 
 // filter employees who earn more than a certain salary [{name: "Alice", salary: 5000}, {name: "Bob", salary: 7000}] => [{name: "Bob", salary: 7000}]
-const filterBySalary = function (employees, salary) {};
+const filterBySalary = function (employees, certainSalary) {
+  return employees.filter(({ salary }) => salary > certainSalary);
+};
 
 // filter orders with a quantity greater than a given number [{orderId: 1, quantity: 10}, {orderId: 2, quantity: 5}] => [{orderId: 1, quantity: 10}]
 const filterByQuantity = function (orders, quantity) {};
