@@ -1,4 +1,4 @@
-// even numbers [1, 2, 3, 4, 5] => [2, 4]
+  // even numbers [1, 2, 3, 4, 5] => [2, 4]
 
 const invert = function (f) {
   return function (...args) {
@@ -329,15 +329,21 @@ const filterByAge = function (people, age) {
   return people.filter((person) => person.age > age);
 };
 
-console.log(filterByAge([{ name: "Alice", age: 25 }, { name: "Bob", age: 30 }, { name: "Charlie", age: 22 }], 25));
 
 // filter products that are cheaper than a given price [{name: "item1", price: 20}, {name: "item2", price: 50}, {name: "item3", price: 10}] => [{name: "item1", price: 20}, {name: "item3", price: 10}]
-const filterByPrice = function (products, price) {};
+
+const filterByPrice = function (products, price) {
+  return products.filter((product) => product.price < price);  
+};
 
 // filter students who scored above a certain grade in Math [{name: "John", grades: {math: 80, science: 90}}, {name: "Jane", grades: {math: 70, science: 85}}] => [{name: "John", grades: {math: 80, science: 90}}]
-const filterByMathGrade = function (students, grade) {};
+
+const filterByMathGrade = function (students, grade) {
+  return students.filter((student) => student.grades.math > grade)
+};
 
 // filter events that occur before a certain date [{name: "Event1", date: "2024-12-01"}, {name: "Event2", date: "2024-11-15"}] => [{name: "Event2", date: "2024-11-15"}]
+
 const filterByDate = function (events, date) {};
 
 // filter employees who earn more than a certain salary [{name: "Alice", salary: 5000}, {name: "Bob", salary: 7000}] => [{name: "Bob", salary: 7000}]
@@ -794,6 +800,8 @@ const testCases = [
     ],
     [{ username: "Bob", postCount: 8 }],
   ],
+
+  [filterByAge([{ name: "Alice", age: 25 }, { name: "Bob", age: 30 }, { name: "Charlie", age: 22 }], 25)],
 ];
 
 const test = function (testCase) {
