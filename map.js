@@ -254,14 +254,18 @@ const extractAges = function (objects) {
 
 // extract the first letters of names from [{ name: "Alice" }, { name: "Bob" }] => ["A", "B"]
 const firstLettersOfNames = function (objects) {
-
+  return objects.map((object) => object.name.at(0));
 };
 
 // calculate areas from [{ width: 2, height: 3 }, { width: 4, height: 5 }] => [6, 20]
-const calculateAreas = function (rectangles) {};
+const calculateAreas = function (rectangles) {
+  return rectangles.map((rectangle) => rectangle.width * rectangle.height);
+};
 
 // extract boolean flags from [{ active: true }, { active: false }] => [true, false]
-const extractFlags = function (objects) {};
+const extractFlags = function (objects) {
+  return objects.map((object) => object.active);
+};
 
 // concatenate first and last names from [{ firstName: "Alice", lastName: "Smith" }, { firstName: "Bob", lastName: "Brown" }] => ["Alice Smith", "Bob Brown"]
 const fullNames = function (objects) {};
