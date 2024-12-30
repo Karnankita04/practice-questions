@@ -154,18 +154,24 @@ const duplicateNumbers = function (numbers) {
 // concatenateArrays([[1, 2], [3, 4], [5, 6]]) => [1, 2, 3, 4, 5, 6]
 // ([[1, 2], [[1], 2], 3, [4]]) => [1,2,[1],2,3,4]
 
-const concate = (init,array) => {
-  console.log(init,array);
-  return [...init, ...array];
-}
-
-const concatenateArrays = function (arrays) {
-  return arrays.reduce(concate);
+const getConcatenatedArray = (init, array) => {
+  return init.concat(array);
 };
 
-// flattenArray([[1, 2], [3, 4], [5, 6]]) => [1, 2, 3, 4, 5, 6]
+const concatenateArrays = function (arrays) {
+  return arrays.reduce(getConcatenatedArray, []);
+};
 
-const flattenArray = function (arrays) {};
+// flattenArray([[1, [2]], [[3], 4], [5, 6]]) => [1, 2, 3, 4, 5, 6]
+
+const flattenArray = function (arrays) {
+  return arrays.reduce((acc, array) => {
+    if (Array.isArray(array)) {
+      return acc.concat(flattenArray(array));
+    }
+    return acc.concat(array);
+  }, []);
+};
 
 // uniqueNumbers([1, 2, 2, 3, 4, 4, 5]) => [1, 2, 3, 4, 5]
 const uniqueNumbers = function (numbers) {
